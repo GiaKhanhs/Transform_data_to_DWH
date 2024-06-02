@@ -13,3 +13,8 @@ Try running the following commands:
 - Join the [chat](https://community.getdbt.com/) on Slack for live discussions and support
 - Find [dbt events](https://events.getdbt.com) near you
 - Check out [the blog](https://blog.getdbt.com/) for the latest news on dbt's development and best practices
+
+
+## Purchase model
+![alt text](https://github.com/GiaKhanhs/Transform_data_to_DWH/blob/master/Purchase_model.png)
+https://drawsql.app/teams/khanhs-team-3/diagrams/purchase-model

@@ -1,50 +1,37 @@
-WITH dim_join_product AS (
-  SELECT 
-      *
-  FROM pj2_dbt_stg.stg_dim_product a
-
-  LEFT JOIN pj2_dbt_stg.stg_dim_unit b
-  ON a.size_unit_measure_key = b.unit_measure_key
-
-  LEFT JOIN pj2_dbt_stg.stg_dim_unit c
-  ON a.weight_unit_measure_key = b.unit_measure_key
-
-  LEFT JOIN pj2_dbt_stg.stg_dim_model 
-  USING(product_model_key)
-
-  LEFT JOIN pj2_dbt_stg.stg_dim_subcategory
-  USING(product_subcategory_key)
-
-  LEFT JOIN pj2_dbt_stg.stg_dim_category
-  USING(product_category_key)
-)
-
-    , dim_product_rename AS (
-  SELECT
-    product_key
-    , product_name
-    , make_flag
-    , finished_goods_flag
-    , product_subcategory_key
-    , product_subcategory_name
-    , product_category_key
-    , product_category_name
-    , product_model_key
-    , product_model_name
-    , size_unit_measure_key
-    , unit_measure_name AS size_unit_measure_name
-    , unit_measure_name_1 AS weight_unit_measure_name
-    , weight_unit_measure_name
-    , color
-    , weight
-    , size
-    , safety_stock_level
-    , standard_cost
-    , list_price
-  FROM dim_join_product
-)
-
 SELECT 
-    *
-FROM dim_product_rename
+    stg_dim_product.product_key
+  , stg_dim_product.product_name
+  , stg_dim_product.make_flag
+  , stg_dim_product.finished_goods_flag
+  , stg_dim_product.product_subcategory_key
+  , stg_dim_subcategory.product_subcategory_name
+  , stg_dim_category.product_category_key
+  , stg_dim_category.product_category_name
+  , stg_dim_product.product_model_key
+  , stg_dim_model.product_model_name
+  , stg_dim_product.size_unit_measure_key
+  , stg_dim_product.color
+  , stg_dim_product.weight
+  , stg_dim_product.size
+  , stg_dim_product.safety_stock_level
+  , stg_dim_product.standard_cost
+  , stg_dim_product.list_price
+  , stg_dim_unit.unit_measure_name AS size_unit_measure_name
+  , stg_dim_unit.unit_measure_name AS weight_unit_measure_name
 
+FROM pj2_dbt_stg.stg_dim_product 
+
+LEFT JOIN pj2_dbt_stg.stg_dim_unit
+ON stg_dim_product.size_unit_measure_key = stg_dim_unit.unit_measure_name
+
+LEFT JOIN pj2_dbt_stg.stg_dim_unit AS weight_unit
+ON stg_dim_product.weight_unit_measure_key = weight_unit.unit_measure_name
+
+LEFT JOIN pj2_dbt_stg.stg_dim_model 
+ON stg_dim_product.product_model_key = stg_dim_model.product_model_key
+
+LEFT JOIN pj2_dbt_stg.stg_dim_subcategory
+ON stg_dim_product.product_subcategory_key = stg_dim_subcategory.product_subcategory_key
+
+LEFT JOIN pj2_dbt_stg.stg_dim_category
+ON stg_dim_subcategory.product_category_key = stg_dim_category.product_category_key

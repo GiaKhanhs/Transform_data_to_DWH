@@ -6,8 +6,8 @@ WITH stg_category__source AS (
 
     , stg_category__redefined AS (
     SELECT 
-        safe_cast(ProductCategoryID AS integer) AS product_category_key
-        , safe_cast(Name AS string) AS product_category_name
+        cast(ProductCategoryID AS integer) AS product_category_key
+        , cast(Name AS string) AS product_category_name
     FROM stg_category__source
 )
 

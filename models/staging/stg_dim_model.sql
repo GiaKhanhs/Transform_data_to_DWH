@@ -6,8 +6,8 @@ WITH stg_model__source AS (
 
     , stg_model__redefined AS (
     SELECT 
-        safe_cast(ProductModelID AS integer) AS product_model_key
-        , safe_cast(Name AS string) AS product_model_name
+        cast(ProductModelID AS integer) AS product_model_key
+        , cast(Name AS string) AS product_model_name
     FROM stg_model__source
 )
 
